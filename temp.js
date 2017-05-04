@@ -1,63 +1,4 @@
-<!DOCTYPE html>
-<meta charset="utf-8">
-<style>
-
-.borders {
-  fill: #000;
-  stroke-opacity: 1;
-}
-
-.land {
-  fill: #999;
-  stroke-opacity: 1;
-}
-
-.graticule {
-  fill: none;
-  stroke: black;
-  stroke-width:.5;
-  opacity:.2;
-}
-
-.labels {
-    font: 8px sans-serif;
-    fill: black;
-    opacity: .5;
-
-    display:none;
-}
-
-.noclicks { pointer-events:none; }
-
-.point {  opacity:.6; }
-
-.arcs {
-  opacity:.1;
-  stroke: gray;
-  stroke-width: 3;
-}
-.flyers {
-  stroke-width:1;
-  opacity: .6;
-  stroke: darkred;
-}
-.arc, .flyer {
-  stroke-linejoin: round;
-  fill:none;
-}
-  .arc { }
-  .flyer { }
-  .flyer:hover { }
-
-</style>
-
-<body>
-<script src="http://d3js.org/d3.v3.min.js"></script>
-<script src="http://d3js.org/queue.v1.min.js"></script>
-<script src="http://d3js.org/topojson.v0.min.js"></script>
-<script src="temp.js"></script>
-
-<!-- d3.select(window)
+d3.select(window)
     .on("mousemove", mousemove)
     .on("mouseup", mouseup);
 
@@ -100,6 +41,8 @@ var svg = d3.select("body").append("svg")
             .attr("height", height)
             .on("mousedown", mousedown);
 
+// var context = svg.node().getContext("2d");
+
 queue()
     .defer(d3.json, "world-110m.json")
     .defer(d3.json, "places.json")
@@ -112,7 +55,7 @@ function ready(error, world, places) {
       grid = graticule();
 
   console.log(borders);
-  path(borders);
+  // path(borders);
 
   var ocean_fill = svg.append("defs").append("radialGradient")
         .attr("id", "ocean_fill")
@@ -191,6 +134,14 @@ function ready(error, world, places) {
       .attr("d", path);
 
 
+  // adding borders, need to figure out style
+  svg.append("path")
+    .datum(borders)
+    .attr("class", "mesh")
+    .style("stroke", "white")
+    .style("fill", "999");
+
+
 
   // spawn links between cities as source/target coord pairs
   places.features.forEach(function(a) {
@@ -241,6 +192,7 @@ function flying_arc(pts) {
 function refresh() {
   svg.selectAll(".land").attr("d", path);
   svg.selectAll(".point").attr("d", path);
+  svg.selectAll(".mesh").attr("d", path);
 
   svg.selectAll(".arc").attr("d", path)
     .attr("opacity", function(d) {
@@ -307,4 +259,3 @@ function mouseup() {
     m0 = null;
   }
 }
-</script> -->
