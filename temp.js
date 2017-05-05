@@ -45,7 +45,7 @@ var svg = d3.select("body").append("svg")
 
 queue()
     .defer(d3.json, "world-110m.json")
-    .defer(d3.json, "places.json")
+    .defer(d3.json, "ling073Pairs.json")
     .await(ready);
 
 function ready(error, world, places) {
@@ -144,16 +144,25 @@ function ready(error, world, places) {
 
 
   // spawn links between cities as source/target coord pairs
+  // places.features.forEach(function(a) {
+  //   places.features.forEach(function(b) {
+  //     if (a !== b) {
+  //       links.push({
+  //         source: a.geometry.coordinates,
+  //         target: b.geometry.coordinates
+  //       });
+  //     }
+  //   });
+  // });
+
+  //New code, takes in source target pairs
   places.features.forEach(function(a) {
-    places.features.forEach(function(b) {
-      if (a !== b) {
-        links.push({
-          source: a.geometry.coordinates,
-          target: b.geometry.coordinates
-        });
-      }
+    links.push({
+      source: a.pair1.geometry.coordinates,
+      target: a.pair2.geometry.coordinates
     });
   });
+
 
   // build geoJSON features from links array
   links.forEach(function(e,i,a) {
