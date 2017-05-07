@@ -125,6 +125,12 @@ function ready(error, world, places) {
     .attr("class","noclicks")
     .style("fill", "url(#globe_shading)");
 
+  svg.append("path")
+    .datum(borders)
+    .attr("class", "mesh")
+    .style("stroke", "white")
+    .style("fill", "999");
+
   svg.append("g").attr("class","points")
       .selectAll("text").data(places.point_data)
     .enter().append("path")
@@ -139,11 +145,7 @@ function ready(error, world, places) {
 
 
   // adding borders, need to figure out style
-  svg.append("path")
-    .datum(borders)
-    .attr("class", "mesh")
-    .style("stroke", "white")
-    .style("fill", "999");
+
 
 
   // LONG AND LAT LINES
