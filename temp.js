@@ -19,7 +19,7 @@ var sky = d3.geo.orthographic()
     .clipAngle(90)
     .scale(300);
 
-var path = d3.geo.path().projection(proj).pointRadius(2);
+var path = d3.geo.path().projection(proj).pointRadius(3);
 
 var swoosh = d3.svg.line()
       .x(function(d) { return d[0] })
@@ -38,9 +38,12 @@ var svg = d3.select("body").append("svg")
             .attr("height", height)
             .on("mousedown", mousedown);
 
-// var div = d3.select("body").append("div")
-//     .attr("class", "tooltip")
-//     .style("opacity", 0);
+var div = d3.select("body").append("div")
+    .attr("class", "tooltip")
+    .style("opacity", 0);
+
+// var parseDate = d3.time.format("%d-%b-%y").parse;
+// var formatTime = d3.time.format("%e %B");
 
 queue()
     .defer(d3.json, "world-110m.json")
@@ -135,13 +138,27 @@ function ready(error, world, places) {
       .selectAll("text").data(places.point_data)
     .enter().append("path")
       .attr("class", "point")
-      .attr("d", path);
+      .attr("d", path)
+      .on("mouseover", function(d) {
+            console.log(d);
+            div.transition()
+                // .duration(200)
+                .style("opacity", .9);
+            div	.html(d.properties.name + "<br/>")
+                .style("left", (d3.event.pageX) + "px")
+                .style("top", (d3.event.pageY - 28) + "px");
+            })
+        .on("mouseout", function(d) {
+            div.transition()
+                // .duration(500)
+                .style("opacity", 0);
+        });
 
   svg.append("g").attr("class","labels")
         .selectAll("text").data(places.point_data)
       .enter().append("text")
       .attr("class", "label")
-      .text(function(d) { return d.properties.name })
+      .text(function(d) { return d.properties.tag })
 
 
   // adding borders, need to figure out style
