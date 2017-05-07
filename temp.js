@@ -219,7 +219,7 @@ function position_labels() {
   var centerPos = proj.invert([width/2,height/2]);
 
   var arc = d3.geo.greatArc();
-  // console.log(svg);
+  console.log(svg.selectAll(".label"));
   svg.selectAll(".label")
     .attr("label-anchor",function(d) {
       var x = proj(d.geometry.coordinates)[0];
@@ -235,7 +235,9 @@ function position_labels() {
       return "translate(" + (x+offset) + "," + (y-2) + ")"
     })
     .style("display",function(d) {
+      console.log(d);
       var d = arc.distance({source: d.geometry.coordinates, target: centerPos});
+      // console.log(d);
       return (d > 1.57) ? 'none' : 'inline';
     })
 
