@@ -32,7 +32,7 @@
 
 { "type": "Feature", "properties": {"name": "Bikol", "tag": "bik"}, "geometry": { "type": "Point", "coordinates": [ 121.262634, 16.566233 ] } }
 ,
-{ "type": "Feature", "properties": {"name": "Chamorro"}, "geometry": { "type": "Point", "coordinates": [ 144.793732, 13.444304 ] } }
+{ "type": "Feature", "properties": {"name": "Chamorro", "tag": "cha"}, "geometry": { "type": "Point", "coordinates": [ 144.793732, 13.444304 ] } }
 ,
 { "type": "Feature", "properties": {"name": "Guarani", "tag": "gug"}, "geometry": { "type": "Point", "coordinates": [ -54.615440, -25.513475 ] } }
 ,
