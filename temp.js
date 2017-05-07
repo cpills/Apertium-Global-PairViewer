@@ -134,6 +134,12 @@ function ready(error, world, places) {
     .style("stroke", "white")
     .style("fill", "999");
 
+  svg.append("g").attr("class","labels")
+        .selectAll("text").data(places.point_data)
+      .enter().append("text")
+      .attr("class", "label")
+      .text(function(d) { return d.properties.tag })
+
   svg.append("g").attr("class","points")
       .selectAll("text").data(places.point_data)
     .enter().append("path")
@@ -142,7 +148,7 @@ function ready(error, world, places) {
       .on("mouseover", function(d) {
             console.log(d);
             div.transition()
-                // .duration(200)
+                .duration(200)
                 .style("opacity", .9);
             div	.html(d.properties.name + "<br/>")
                 .style("left", (d3.event.pageX) + "px")
@@ -150,15 +156,11 @@ function ready(error, world, places) {
             })
         .on("mouseout", function(d) {
             div.transition()
-                // .duration(500)
+                .duration(500)
                 .style("opacity", 0);
         });
 
-  svg.append("g").attr("class","labels")
-        .selectAll("text").data(places.point_data)
-      .enter().append("text")
-      .attr("class", "label")
-      .text(function(d) { return d.properties.tag })
+
 
 
   // adding borders, need to figure out style
@@ -236,7 +238,7 @@ function position_labels() {
   var centerPos = proj.invert([width/2,height/2]);
 
   var arc = d3.geo.greatArc();
-  console.log(svg.selectAll(".label"));
+  // console.log(svg.selectAll(".label"));
   svg.selectAll(".label")
     .attr("label-anchor",function(d) {
       var x = proj(d.geometry.coordinates)[0];
@@ -252,7 +254,7 @@ function position_labels() {
       return "translate(" + (x+offset) + "," + (y-2) + ")"
     })
     .style("display",function(d) {
-      console.log(d);
+      // console.log(d);
       var d = arc.distance({source: d.geometry.coordinates, target: centerPos});
       // console.log(d);
       return (d > 1.57) ? 'none' : 'inline';
