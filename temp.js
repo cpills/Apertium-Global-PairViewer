@@ -1,3 +1,7 @@
+// TODO: put json file back into old format to get points to show up.
+// figure out how to create pairs based on tsv. Figure out hovering/labels
+
+
 d3.select(window)
     .on("mousemove", mousemove)
     .on("mouseup", mouseup);
@@ -29,33 +33,27 @@ var links = [],
 var graticule = d3.geo.graticule();
 
 
-// var canvas = d3.select("body").append("canvas")
-//     .attr("width", width)
-//     .attr("height", height);
-//
-// var context = canvas.node().getContext("2d");
-
-
 var svg = d3.select("body").append("svg")
             .attr("width", width)
             .attr("height", height)
             .on("mousedown", mousedown);
 
-// var context = svg.node().getContext("2d");
+// var div = d3.select("body").append("div")
+//     .attr("class", "tooltip")
+//     .style("opacity", 0);
 
 queue()
     .defer(d3.json, "world-110m.json")
     .defer(d3.json, "ling073Pairs.json")
+    // .defer(d3.json, "points.json")
     .await(ready);
 
 function ready(error, world, places) {
-
+  console.log(places);
   var land = topojson.object(world, world.objects.land),
       borders = topojson.mesh(world, world.objects.countries, function(a, b) { return a !== b; }),
       grid = graticule();
 
-  console.log(borders);
-  // path(borders);
 
   var ocean_fill = svg.append("defs").append("radialGradient")
         .attr("id", "ocean_fill")
@@ -128,10 +126,16 @@ function ready(error, world, places) {
     .style("fill", "url(#globe_shading)");
 
   svg.append("g").attr("class","points")
-      .selectAll("text").data(places.features)
+      .selectAll("text").data(places.point_data)
     .enter().append("path")
       .attr("class", "point")
       .attr("d", path);
+
+  svg.append("g").attr("class","labels")
+        .selectAll("text").data(places.point_data)
+      .enter().append("text")
+      .attr("class", "label")
+      .text(function(d) { return d.properties.name })
 
 
   // adding borders, need to figure out style
@@ -140,6 +144,13 @@ function ready(error, world, places) {
     .attr("class", "mesh")
     .style("stroke", "white")
     .style("fill", "999");
+
+
+  // LONG AND LAT LINES
+  // svg.append("path")
+  //       .datum(graticule)
+  //       .attr("class", "graticule noclicks")
+  //       .attr("d", path);
 
 
 
@@ -155,6 +166,14 @@ function ready(error, world, places) {
   //   });
   // });
 
+
+  //HOVERING?
+  // svg.append("g").attr("class","countries")
+  // .selectAll("path")
+  //   .data(topojson.object(world, world.objects.countries).geometries)
+  // .enter().append("path")
+  //   .attr("d", path);
+
   //New code, takes in source target pairs
   places.features.forEach(function(a) {
     links.push({
@@ -162,6 +181,11 @@ function ready(error, world, places) {
       target: a.pair2.geometry.coordinates
     });
   });
+
+  //TODO figure out how to create pairs now. Need separate pairs JSON file? Maybe create separate points JSON file
+  // places.features.forEach(function(a)) {
+  //   if (a.name in
+  // }
 
 
   // build geoJSON features from links array
@@ -185,6 +209,38 @@ function ready(error, world, places) {
   refresh();
 }
 
+//
+//
+//
+//TESTING
+function position_labels() {
+  var centerPos = proj.invert([width/2,height/2]);
+
+  var arc = d3.geo.greatArc();
+  // console.log(svg);
+  svg.selectAll(".label")
+    .attr("label-anchor",function(d) {
+      var x = proj(d.geometry.coordinates)[0];
+      return x < width/2-20 ? "end" :
+             x < width/2+20 ? "middle" :
+             "start"
+    })
+    .attr("transform", function(d) {
+      var loc = proj(d.geometry.coordinates),
+        x = loc[0],
+        y = loc[1];
+      var offset = x < width/2 ? -5 : 5;
+      return "translate(" + (x+offset) + "," + (y-2) + ")"
+    })
+    .style("display",function(d) {
+      var d = arc.distance({source: d.geometry.coordinates, target: centerPos});
+      return (d > 1.57) ? 'none' : 'inline';
+    })
+
+}
+
+
+
 function flying_arc(pts) {
   var source = pts.source,
       target = pts.target;
@@ -203,15 +259,19 @@ function refresh() {
   svg.selectAll(".point").attr("d", path);
   svg.selectAll(".mesh").attr("d", path);
 
-  svg.selectAll(".arc").attr("d", path)
-    .attr("opacity", function(d) {
-        return fade_at_edge(d)
-    })
+  // svg.selectAll(".countries path").attr("d", path); // hover?
+  // svg.selectAll(".graticule").attr("d", path); //This adds long and lat lines
+
+  svg.selectAll(".arc").attr("d", path);
+  //   .attr("opacity", function(d) {
+  //       return fade_at_edge(d)
+  //   })
+  position_labels();
 
   svg.selectAll(".flyer")
     .attr("d", function(d) { return swoosh(flying_arc(d)) })
     .attr("opacity", function(d) {
-      return fade_at_edge(d)
+      return fade_at_edge(d) // change this to just (d) to not fade edges
     })
 }
 

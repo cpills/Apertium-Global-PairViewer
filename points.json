@@ -1,0 +1,38 @@
+{
+"type": "FeatureCollection",
+
+"features": [
+
+{ "type": "Feature", "properties": {"name": "Bikol", "tag": "bik"}, "geometry": { "type": "Point", "coordinates": [ 121.262634, 16.566233 ] } }
+,
+{ "type": "Feature", "properties": {"name": "Chamorro"}, "geometry": { "type": "Point", "coordinates": [ 144.793732, 13.444304 ] } }
+,
+{ "type": "Feature", "properties": {"name": "Guarani", "tag": "gug"}, "geometry": { "type": "Point", "coordinates": [ -54.615440, -25.513475 ] } }
+,
+{ "type": "Feature", "properties": {"name": "Warlpiri", "tag": "wbp"}, "geometry": { "type": "Point", "coordinates": [ 132.550964, -19.491411 ] } }
+,
+{ "type": "Feature", "properties": {"name": "Jeju", "tag": "jje"}, "geometry": { "type": "Point", "coordinates": [ 126.4983, 33.4890 ] } }
+,
+{ "type": "Feature", "properties": {"name": "Ainu", "tag": "ain"}, "geometry": { "type": "Point", "coordinates": [ 142.8635, 43.2203 ] } }
+,
+{ "type": "Feature", "properties": {"name": "Kalmyk", "tag": "xal"}, "geometry": { "type": "Point", "coordinates": [ 44.2794, 46.3155 ] } }
+,
+{ "type": "Feature", "properties": {"name": "Judeo-Tat", "tag": "jdt"}, "geometry": { "type": "Point", "coordinates": [ 47.5769, 40.1431 ] } }
+,
+{ "type": "Feature", "properties": {"name": "Khasi", "tag": "kha"}, "geometry": { "type": "Point", "coordinates": [ 91.3662, 25.4670 ] } }
+,
+{ "type": "Feature", "properties": {"name": "Wôpanâak", "tag": "wam"}, "geometry": { "type": "Point", "coordinates": [ -71.3824, 42.4072 ] } }
+,
+{ "type": "Feature", "properties": {"name": "Lingala", "tag": "lin"}, "geometry": { "type": "Point", "coordinates": [ 21.7587, -4.0383 ] } }
+,
+{ "type": "Feature", "properties": {"name": "Kikuyu", "tag": "kik"}, "geometry": { "type": "Point", "coordinates": [ 36.8304, -1.1748 ] } }
+,
+{ "type": "Feature", "properties": {"name": "Okinawan", "tag": "ryu"}, "geometry": { "type": "Point", "coordinates": [ 127.6809, 26.2124 ] } }
+,
+{ "type": "Feature", "properties": {"name": "Miyako", "tag": "mvi"}, "geometry": { "type": "Point", "coordinates": [ 125.3247, 24.7674 ] } } }
+,
+{ "type": "Feature", "properties": {"name": "Wamesa", "tag": "wad"}, "geometry": { "type": "Point", "coordinates": [ 132.5000, -1.5000 ] } }
+,
+{ "type": "Feature", "properties": {"name": "Tongan", "tag": "ton"}, "geometry": { "type": "Point", "coordinates": [ -175.1982, -21.1790 ] } } }
+]
+}
