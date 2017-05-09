@@ -14,9 +14,11 @@ def filterPairs(filename, languages):
         if lang1 in languages and lang2 in languages:
             coordString1 = '"coordinates1": ' + str(languages[lang1]) + ","
             coordString2 = '"coordinates2": ' + str(languages[lang2]) + ","
-            print(coordString2)
+
             line.insert(12, coordString1)
             line.insert(13, coordString2)
+
+            #getting rid of last comma
             line[-1] = line[-1][:-1]
             joined = " ".join(line)
             filtered.append(joined)
@@ -36,11 +38,8 @@ def getLanguagesWithCoords(filename):
     return langDict
 
 if __name__ == "__main__":
-    print("Ok")
     langDict = getLanguagesWithCoords("apertium-languages.tsv")
-    print(langDict)
     filtered = filterPairs("pairs.json.txt", langDict)
-    print(filtered[0])
     apertiumFile = open("apertiumPairs.json", "w")
 
     apertiumFile.write("{\n")
@@ -51,14 +50,14 @@ if __name__ == "__main__":
         apertiumFile.write(",\n")
     apertiumFile.write("]\n")
     apertiumFile.write(",\n")
+
     #writing point coordinates
     apertiumFile.write('"point_data": [\n')
     for code, coords in langDict.items():
-        string = '{"tag": "' + code + '", ' + '"coordinates": ' + str(coords) + "}\n"
+        string = '{"type": "Feature", "tag": "' + code + '", ' + '"geometry": { "type": "Point", ' + '"coordinates": ' + str(coords) + "} } \n"
         apertiumFile.write("\t"+string)
         apertiumFile.write(",\n")
     apertiumFile.write("]\n")
     apertiumFile.write("}")
 
     apertiumFile.close()
-    # print " ".join(filtered[0])
