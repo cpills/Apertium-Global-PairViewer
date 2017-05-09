@@ -66,9 +66,28 @@ div.tooltip {
     pointer-events: none;
 }
 
+
 </style>
 
 <body>
+
+  <div id="option">
+      <input name="zoomInButton"
+             type="button"
+             value="Zoom In"
+             onclick="zoomIn()" />
+  </div>
+
+  <div id="option">
+      <input name="zoomOutButton"
+             type="button"
+             value="Zoom Out"
+             onclick="zoomOut()" />
+  </div>
+
+
+
+
 <script src="http://d3js.org/d3.v3.min.js"></script>
 <script src="http://d3js.org/queue.v1.min.js"></script>
 <script src="http://d3js.org/topojson.v0.min.js"></script>
