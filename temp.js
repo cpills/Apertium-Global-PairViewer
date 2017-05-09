@@ -1,23 +1,28 @@
 // TODO: put json file back into old format to get points to show up.
 // figure out how to create pairs based on tsv. Figure out hovering/labels
-
+//ADD ZOOMING (resizing circle with button)
+//change arc color / width based on language stage
+// Change arc fading? Minimum fade
+// mention features and known bugs on page
+// publish to public repo
 
 d3.select(window)
     .on("mousemove", mousemove)
     .on("mouseup", mouseup);
 
-var width = 960,
-    height = 500;
+
+var width = 960, //These intial values are the only ones that work, not too sure why
+    height = 500; // Something might be hardcoded somewhere else
 
 var proj = d3.geo.orthographic()
     .translate([width / 2, height / 2])
     .clipAngle(90)
-    .scale(220);
+    .scale(width / 4);
 
 var sky = d3.geo.orthographic()
     .translate([width / 2, height / 2])
     .clipAngle(90)
-    .scale(300);
+    .scale(width / 3);
 
 var path = d3.geo.path().projection(proj).pointRadius(3);
 
@@ -47,7 +52,7 @@ var div = d3.select("body").append("div")
 
 queue()
     .defer(d3.json, "world-110m.json")
-    .defer(d3.json, "ling073Pairs.json")
+    .defer(d3.json, "apertiumPairs.json")
     // .defer(d3.json, "points.json")
     .await(ready);
 
@@ -98,12 +103,12 @@ function ready(error, world, places) {
         .attr("offset","100%").attr("stop-color", "#000")
         .attr("stop-opacity","0")
 
-  svg.append("ellipse")
-    .attr("cx", 440).attr("cy", 450)
-    .attr("rx", proj.scale()*.90)
-    .attr("ry", proj.scale()*.25)
-    .attr("class", "noclicks")
-    .style("fill", "url(#drop_shadow)");
+  // svg.append("ellipse")
+  //   .attr("cx", 440).attr("cy", 450)
+  //   .attr("rx", proj.scale()*.90)
+  //   .attr("ry", proj.scale()*.25)
+  //   .attr("class", "noclicks")
+  //   .style("fill", "url(#drop_shadow)");
 
   svg.append("circle")
     .attr("cx", width / 2).attr("cy", height / 2)
@@ -113,7 +118,7 @@ function ready(error, world, places) {
 
   svg.append("path")
     .datum(topojson.object(world, world.objects.land))
-    .attr("class", "land noclicks")
+    .attr("class", "land")
     .attr("d", path);
 
   svg.append("circle")
@@ -134,11 +139,39 @@ function ready(error, world, places) {
     .style("stroke", "white")
     .style("fill", "999");
 
+
+  //TODO uncomment for ling073 pairs
+  // svg.append("g").attr("class","labels")
+  //       .selectAll("text").data(places.point_data)
+  //     .enter().append("text")
+  //     .attr("class", "label")
+  //     .text(function(d) { return d.properties.tag })
+  //
+  // svg.append("g").attr("class","points")
+  //     .selectAll("text").data(places.point_data)
+  //   .enter().append("path")
+  //     .attr("class", "point")
+  //     .attr("d", path)
+  //     .on("mouseover", function(d) {
+  //           console.log(d);
+  //           div.transition()
+  //               .duration(200)
+  //               .style("opacity", .9);
+  //           div	.html(d.properties.name + "<br/>")
+  //               .style("left", (d3.event.pageX) + "px")
+  //               .style("top", (d3.event.pageY - 28) + "px");
+  //           })
+  //       .on("mouseout", function(d) {
+  //           div.transition()
+  //               .duration(500)
+  //               .style("opacity", 0);
+  //       });
+
   svg.append("g").attr("class","labels")
         .selectAll("text").data(places.point_data)
       .enter().append("text")
       .attr("class", "label")
-      .text(function(d) { return d.properties.tag })
+      .text(function(d) { return d.tag })
 
   svg.append("g").attr("class","points")
       .selectAll("text").data(places.point_data)
@@ -150,7 +183,8 @@ function ready(error, world, places) {
             div.transition()
                 .duration(200)
                 .style("opacity", .9);
-            div	.html(d.properties.name + "<br/>")
+            // div	.html(d.properties.tag + "<br/>")
+            div	.html(d.tag + "<br/>")
                 .style("left", (d3.event.pageX) + "px")
                 .style("top", (d3.event.pageY - 28) + "px");
             })
@@ -188,20 +222,21 @@ function ready(error, world, places) {
   // });
 
 
-  //HOVERING?
-  // svg.append("g").attr("class","countries")
-  // .selectAll("path")
-  //   .data(topojson.object(world, world.objects.countries).geometries)
-  // .enter().append("path")
-  //   .attr("d", path);
-
-  //New code, takes in source target pairs
-  places.features.forEach(function(a) {
+  places.pairs.forEach(function(a) {
     links.push({
-      source: a.pair1.geometry.coordinates,
-      target: a.pair2.geometry.coordinates
+      source: a.coordinates1,
+      target: a.coordinates2
     });
   });
+
+  //TODO uncomment for ling073
+  //New code, takes in source target pairs
+  // places.features.forEach(function(a) {
+  //   links.push({
+  //     source: a.pair1.geometry.coordinates,
+  //     target: a.pair2.geometry.coordinates
+  //   });
+  // });
 
   //TODO figure out how to create pairs now. Need separate pairs JSON file? Maybe create separate points JSON file
   // places.features.forEach(function(a)) {
@@ -241,13 +276,16 @@ function position_labels() {
   // console.log(svg.selectAll(".label"));
   svg.selectAll(".label")
     .attr("label-anchor",function(d) {
+      //TODO ling073
+      // var x = proj(d.geometry.coordinates)[0];
       var x = proj(d.geometry.coordinates)[0];
-      return x < width/2-20 ? "end" :
-             x < width/2+20 ? "middle" :
+      return x < width/2-20 ? "end" : // These values will need to be dynamic and not hardcoded
+             x < width/2+20 ? "middle" : // to work well with zooming in and out
              "start"
     })
     .attr("transform", function(d) {
       var loc = proj(d.geometry.coordinates),
+      // var loc = proj(d.geometry.coordinates),
         x = loc[0],
         y = loc[1];
       var offset = x < width/2 ? -5 : 5;
@@ -255,6 +293,7 @@ function position_labels() {
     })
     .style("display",function(d) {
       // console.log(d);
+      // var d = arc.distance({source: d.geometry.coordinates, target: centerPos});
       var d = arc.distance({source: d.geometry.coordinates, target: centerPos});
       // console.log(d);
       return (d > 1.57) ? 'none' : 'inline';
@@ -262,6 +301,52 @@ function position_labels() {
 
 }
 
+function zoomIn() {
+  width += 200;
+  height += 100;
+
+  // svg.attr("width", width);
+  // svg.attr("height", height);
+  sky = d3.geo.orthographic()
+      // .translate([width / 2, height / 2])
+      .clipAngle(90)
+      // .scale(300);
+      .scale(width / 3);
+
+  proj = d3.geo.orthographic()
+      .clipAngle(90)
+      .scale(width / 4);
+
+  path = d3.geo.path().projection(proj).pointRadius(3);
+
+  svg.selectAll("circle").attr("r", width / 4);
+
+  refresh();
+}
+
+function zoomOut() {
+  width -= 200;
+  height -= 100;
+
+
+  sky = d3.geo.orthographic()
+      // .translate([width / 2, height / 2])
+      .clipAngle(90)
+      // .scale(300);
+      .scale(width / 3);
+
+  proj = d3.geo.orthographic()
+      .clipAngle(90)
+      .scale(width / 4);
+
+  path = d3.geo.path().projection(proj).pointRadius(3);
+
+  svg.selectAll("circle").attr("r", width / 4);
+
+  refresh();
+
+
+}
 
 
 function flying_arc(pts) {
@@ -282,13 +367,11 @@ function refresh() {
   svg.selectAll(".point").attr("d", path);
   svg.selectAll(".mesh").attr("d", path);
 
-  // svg.selectAll(".countries path").attr("d", path); // hover?
+
   // svg.selectAll(".graticule").attr("d", path); //This adds long and lat lines
 
   svg.selectAll(".arc").attr("d", path);
-  //   .attr("opacity", function(d) {
-  //       return fade_at_edge(d)
-  //   })
+
   position_labels();
 
   svg.selectAll(".flyer")
@@ -308,8 +391,10 @@ function fade_at_edge(d) {
     end = d.target;
   }
   else {
-    start = d.geometry.coordinates[0];
-    end = d.geometry.coordinates[1];
+    // start = d.geometry.coordinates[0];
+    // end = d.geometry.coordinates[1];
+    start = d.coordinates1;
+    end = d.coordinates2;
   }
 
   var start_dist = 1.57 - arc.distance({source: start, target: centerPos}),
@@ -337,8 +422,8 @@ function mousemove() {
   if (m0) {
     var m1 = [d3.event.pageX, d3.event.pageY]
       , o1 = [o0[0] + (m1[0] - m0[0]) / 6, o0[1] + (m0[1] - m1[1]) / 6];
-    o1[1] = o1[1] > 30  ? 30  :
-            o1[1] < -30 ? -30 :
+    o1[1] = o1[1] > 40  ? 40  :  // Affects maximum turn (upper and lower limit)
+            o1[1] < -40 ? -40 :
             o1[1];
     proj.rotate(o1);
     sky.rotate(o1);
