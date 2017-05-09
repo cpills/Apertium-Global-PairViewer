@@ -1,0 +1,194 @@
+{
+"type": "FeatureCollection",
+"pairs": [
+	{"stems": 16228, "repo": "trunk", "created": "2013-05-13", "last_updated": "2014-10-15", "lg2": "eng", "lg1": "hbs", "coordinates1": [-1.0, 53.0], "coordinates2": [19.0, 45.5], "direction": "<>"}
+,
+	{"stems": 10452, "repo": "trunk", "created": "2007-06-08", "last_updated": "2014-10-12", "lg2": "mkd", "lg1": "hbs", "coordinates1": [22.0, 41.5], "coordinates2": [19.0, 45.5], "direction": ">"}
+,
+	{"stems": 22863, "repo": "trunk", "created": "2012-04-27", "last_updated": "2014-09-02", "lg2": "slv", "lg1": "hbs", "coordinates1": [19.0, 49.0], "coordinates2": [19.0, 45.5], "direction": "<>"}
+,
+	{"stems": 8702, "repo": "trunk", "created": "2007-06-20", "last_updated": "2014-10-12", "lg2": "eng", "lg1": "isl", "coordinates1": [-1.0, 53.0], "coordinates2": [-19.0, 64.0], "direction": ">"}
+,
+	{"stems": 9921, "repo": "trunk", "created": "2012-04-12", "last_updated": "2014-10-12", "lg2": "tat", "lg1": "kaz", "coordinates1": [60.0, 56.0], "coordinates2": [73.2, 48.9], "direction": "<>"}
+,
+	{"stems": 69012, "repo": "trunk", "created": "2008-03-24", "last_updated": "2014-10-25", "lg2": "nob", "lg1": "nno", "coordinates1": [11.0, 60.0], "coordinates2": [7.0, 61.0], "direction": "<>"}
+,
+	{"stems": 76389, "repo": "trunk", "created": "2010-01-11", "last_updated": "2014-10-20", "lg2": "nob", "lg1": "sme", "coordinates1": [11.0, 60.0], "coordinates2": [23.0, 69.0], "direction": ">"}
+,
+	{"stems": 4840, "repo": "trunk", "created": "2010-03-17", "last_updated": "2014-10-15", "lg2": "hin", "lg1": "urd", "coordinates1": [78.0, 28.0], "coordinates2": [68.0, 25.0], "direction": "<>"}
+,
+	{"stems": 18919, "repo": "staging", "created": "2007-02-23", "last_updated": "2014-10-06", "lg2": "por", "lg1": "fra", "coordinates1": [-8.5, 40.0], "coordinates2": [2.5, 47.0], "direction": "<>"}
+,
+	{"stems": 39242, "repo": "nursery", "created": "2009-07-01", "last_updated": "2014-08-18", "lg2": "hin", "lg1": "eng", "coordinates1": [78.0, 28.0], "coordinates2": [-1.0, 53.0], "direction": "<>"}
+,
+	{"stems": 159430, "repo": "nursery", "created": "2013-05-12", "last_updated": "2014-10-24", "lg2": "eng", "lg1": "fin", "coordinates1": [-1.0, 53.0], "coordinates2": [25.0, 62.0], "direction": "<>"}
+,
+	{"stems": 5008, "repo": "nursery", "created": "2013-03-10", "last_updated": "2014-06-09", "lg2": "rus", "lg1": "hbs", "coordinates1": [39.0, 57.0], "coordinates2": [19.0, 45.5], "direction": "<>"}
+,
+	{"stems": 7623, "repo": "nursery", "created": "2013-04-23", "last_updated": "2014-09-02", "lg2": "kir", "lg1": "kaz", "coordinates1": [75.0, 42.0], "coordinates2": [73.2, 48.9], "direction": "<>"}
+,
+	{"stems": 561, "repo": "nursery", "created": "2014-07-19", "last_updated": "2014-07-27", "lg2": "kum", "lg1": "kaz", "coordinates1": [47.5, 42.7], "coordinates2": [73.2, 48.9], "direction": "<>"}
+,
+	{"stems": 12149, "repo": "nursery", "created": "2007-05-10", "last_updated": "2014-07-16", "lg2": "ukr", "lg1": "rus", "coordinates1": [30.0, 50.0], "coordinates2": [39.0, 57.0], "direction": "<>"}
+,
+	{"stems": -1, "repo": "nursery", "created": "2011-04-18", "last_updated": "2014-06-09", "lg2": "spa", "lg1": "slv", "coordinates1": [-3.0, 41.0], "coordinates2": [19.0, 49.0], "direction": ""}
+,
+	{"stems": 7160, "repo": "nursery", "created": "2010-05-17", "last_updated": "2014-10-23", "lg2": "fin", "lg1": "sme", "coordinates1": [25.0, 62.0], "coordinates2": [23.0, 69.0], "direction": "<>"}
+,
+	{"stems": 5999, "repo": "nursery", "created": "2012-01-21", "last_updated": "2014-08-18", "lg2": "rus", "lg1": "tat", "coordinates1": [39.0, 57.0], "coordinates2": [60.0, 56.0], "direction": ">"}
+,
+	{"stems": 7123, "repo": "nursery", "created": "2011-03-30", "last_updated": "2014-07-13", "lg2": "kir", "lg1": "tur", "coordinates1": [75.0, 42.0], "coordinates2": [31.0, 40.0], "direction": "<>"}
+,
+	{"stems": 213, "repo": "nursery", "created": "2012-01-29", "last_updated": "2014-06-09", "lg2": "tat", "lg1": "tur", "coordinates1": [60.0, 56.0], "coordinates2": [31.0, 40.0], "direction": "<>"}
+,
+	{"stems": 2416, "repo": "nursery", "created": "2013-05-05", "last_updated": "2014-06-09", "lg2": "uzb", "lg1": "tur", "coordinates1": [67.0, 40.0], "coordinates2": [31.0, 40.0], "direction": "<>"}
+,
+	{"stems": 5509, "repo": "incubator", "created": "2013-11-11", "last_updated": "2014-06-09", "lg2": "rus", "lg1": "ava", "coordinates1": [39.0, 57.0], "coordinates2": [46.5, 42.5], "direction": ">"}
+,
+	{"stems": 198, "repo": "incubator", "created": "2012-01-21", "last_updated": "2014-07-14", "lg2": "tat", "lg1": "chv", "coordinates1": [60.0, 56.0], "coordinates2": [47.5, 56.0], "direction": "<>"}
+,
+	{"stems": 830, "repo": "incubator", "created": "2014-03-20", "last_updated": "2014-07-02", "lg2": "eng", "lg1": "ell", "coordinates1": [-1.0, 53.0], "coordinates2": [22.0, 39.0], "direction": "<>"}
+,
+	{"stems": 13388, "repo": "incubator", "created": "2012-06-07", "last_updated": "2014-10-12", "lg2": "kaz", "lg1": "eng", "coordinates1": [73.2, 48.9], "coordinates2": [-1.0, 53.0], "direction": "<>"}
+,
+	{"stems": 175, "repo": "incubator", "created": "2014-06-02", "last_updated": "2014-10-07", "lg2": "fin", "lg1": "eus", "coordinates1": [25.0, 62.0], "coordinates2": [-2.5, 43.3], "direction": ">"}
+,
+	{"stems": 586, "repo": "incubator", "created": "2011-07-28", "last_updated": "2012-04-19", "lg2": "sme", "lg1": "eus", "coordinates1": [23.0, 69.0], "coordinates2": [-2.5, 43.3], "direction": ">"}
+,
+	{"stems": 250, "repo": "incubator", "created": "2014-06-15", "last_updated": "2014-09-02", "lg2": "hbs", "lg1": "fin", "coordinates1": [19.0, 45.5], "coordinates2": [25.0, 62.0], "direction": "<>"}
+,
+	{"stems": 1000, "repo": "incubator", "created": "2014-05-25", "last_updated": "2014-06-09", "lg2": "isl", "lg1": "fin", "coordinates1": [-19.0, 64.0], "coordinates2": [25.0, 62.0], "direction": "<>"}
+,
+	{"stems": 281, "repo": "incubator", "created": "2014-09-10", "last_updated": "2014-09-11", "lg2": "ita", "lg1": "fin", "coordinates1": [13.0, 42.5], "coordinates2": [25.0, 62.0], "direction": "<>"}
+,
+	{"stems": 283, "repo": "incubator", "created": "2014-08-21", "last_updated": "2014-08-22", "lg2": "spa", "lg1": "fin", "coordinates1": [-3.0, 41.0], "coordinates2": [25.0, 62.0], "direction": "<>"}
+,
+	{"stems": 1893, "repo": "incubator", "created": "2014-04-27", "last_updated": "2014-06-09", "lg2": "swe", "lg1": "fin", "coordinates1": [15.0, 59.0], "coordinates2": [25.0, 62.0], "direction": "<>"}
+,
+	{"stems": 194, "repo": "incubator", "created": "2013-05-11", "last_updated": "2014-06-09", "lg2": "eng", "lg1": "fra", "coordinates1": [-1.0, 53.0], "coordinates2": [2.5, 47.0], "direction": "<>"}
+,
+	{"stems": 52, "repo": "incubator", "created": "2014-02-09", "last_updated": "2014-06-09", "lg2": "rus", "lg1": "isl", "coordinates1": [39.0, 57.0], "coordinates2": [-19.0, 64.0], "direction": "<>"}
+,
+	{"stems": 1, "repo": "incubator", "created": "?", "last_updated": "2014-01-07", "lg2": "ita", "lg1": "ita", "coordinates1": [13.0, 42.5], "coordinates2": [13.0, 42.5], "direction": "?"}
+,
+	{"stems": 5408, "repo": "incubator", "created": "2013-10-17", "last_updated": "2014-08-29", "lg2": "kaa", "lg1": "kaz", "coordinates1": [49.0, 53.0], "coordinates2": [73.2, 48.9], "direction": "<>"}
+,
+	{"stems": 145, "repo": "incubator", "created": "2013-05-10", "last_updated": "2014-06-09", "lg2": "uzb", "lg1": "kir", "coordinates1": [67.0, 40.0], "coordinates2": [75.0, 42.0], "direction": "<>"}
+,
+	{"stems": 137, "repo": "incubator", "created": "2014-04-01", "last_updated": "2014-06-09", "lg2": "spa", "lg1": "mlt", "coordinates1": [-3.0, 41.0], "coordinates2": [14.4, 35.9], "direction": ">"}
+,
+	{"stems": -1, "repo": "incubator", "created": "2011-03-31", "last_updated": "2014-05-18", "lg2": "eng", "lg1": "rus", "coordinates1": [-1.0, 53.0], "coordinates2": [39.0, 57.0], "direction": ""}
+,
+	{"stems": 1586, "repo": "incubator", "created": "2011-04-28", "last_updated": "2014-10-25", "lg2": "ita", "lg1": "slv", "coordinates1": [13.0, 42.5], "coordinates2": [19.0, 49.0], "direction": "<>"}
+,
+	{"stems": 1, "repo": "incubator", "created": "?", "last_updated": "2012-04-19", "lg2": "spa", "lg1": "sme", "coordinates1": [-3.0, 41.0], "coordinates2": [23.0, 69.0], "direction": "?"}
+,
+	{"stems": 159, "repo": "incubator", "created": "2013-05-13", "last_updated": "2014-06-09", "lg2": "dan", "lg1": "swe", "coordinates1": [11.5, 55.5], "coordinates2": [15.0, 59.0], "direction": "<>"}
+,
+	{"stems": -1, "repo": "incubator", "created": "?", "last_updated": "2013-12-29", "lg2": "kir", "lg1": "tat", "coordinates1": [75.0, 42.0], "coordinates2": [60.0, 56.0], "direction": "?"}
+]
+,
+"point_data": [
+	{"tag": "nno", "coordinates": [7.0, 61.0]}
+,
+	{"tag": "tat", "coordinates": [60.0, 56.0]}
+,
+	{"tag": "ron", "coordinates": [25.0, 46.0]}
+,
+	{"tag": "tkm", "coordinates": [60.0, 38.0]}
+,
+	{"tag": "por", "coordinates": [-8.5, 40.0]}
+,
+	{"tag": "uzb", "coordinates": [67.0, 40.0]}
+,
+	{"tag": "ita", "coordinates": [13.0, 42.5]}
+,
+	{"tag": "ara", "coordinates": [36.0, 28.0]}
+,
+	{"tag": "nld", "coordinates": [5.5, 52.0]}
+,
+	{"tag": "arg", "coordinates": [-0.3, 42.7]}
+,
+	{"tag": "ind", "coordinates": [119.0, -5.0]}
+,
+	{"tag": "spa", "coordinates": [-3.0, 41.0]}
+,
+	{"tag": "bre", "coordinates": [-3.4, 48.3]}
+,
+	{"tag": "glg", "coordinates": [-8.0, 42.7]}
+,
+	{"tag": "ava", "coordinates": [46.5, 42.5]}
+,
+	{"tag": "oci", "coordinates": [2.0, 44.0]}
+,
+	{"tag": "fra", "coordinates": [2.5, 47.0]}
+,
+	{"tag": "mkd", "coordinates": [22.0, 41.5]}
+,
+	{"tag": "ell", "coordinates": [22.0, 39.0]}
+,
+	{"tag": "eng", "coordinates": [-1.0, 53.0]}
+,
+	{"tag": "rus", "coordinates": [39.0, 57.0]}
+,
+	{"tag": "hrv", "coordinates": [16.0, 46.0]}
+,
+	{"tag": "swe", "coordinates": [15.0, 59.0]}
+,
+	{"tag": "ukr", "coordinates": [30.0, 50.0]}
+,
+	{"tag": "kum", "coordinates": [47.5, 42.7]}
+,
+	{"tag": "cym", "coordinates": [-4.0, 52.5]}
+,
+	{"tag": "chv", "coordinates": [47.5, 56.0]}
+,
+	{"tag": "sme", "coordinates": [23.0, 69.0]}
+,
+	{"tag": "fin", "coordinates": [25.0, 62.0]}
+,
+	{"tag": "tur", "coordinates": [31.0, 40.0]}
+,
+	{"tag": "eus", "coordinates": [-2.5, 43.3]}
+,
+	{"tag": "kmr", "coordinates": [42.5, 37.5]}
+,
+	{"tag": "kaa", "coordinates": [49.0, 53.0]}
+,
+	{"tag": "ast", "coordinates": [-6.0, 43.0]}
+,
+	{"tag": "kir", "coordinates": [75.0, 42.0]}
+,
+	{"tag": "dan", "coordinates": [11.5, 55.5]}
+,
+	{"tag": "nob", "coordinates": [11.0, 60.0]}
+,
+	{"tag": "bul", "coordinates": [35.0, 43.0]}
+,
+	{"tag": "kaz", "coordinates": [73.2, 48.9]}
+,
+	{"tag": "tyv", "coordinates": [94.0, 52.0]}
+,
+	{"tag": "hin", "coordinates": [78.0, 28.0]}
+,
+	{"tag": "urd", "coordinates": [68.0, 25.0]}
+,
+	{"tag": "zlm", "coordinates": [105.0, -4.0]}
+,
+	{"tag": "slv", "coordinates": [19.0, 49.0]}
+,
+	{"tag": "bos", "coordinates": [18.0, 44.0]}
+,
+	{"tag": "cat", "coordinates": [0.5, 41.0]}
+,
+	{"tag": "srp", "coordinates": [21.0, 44.0]}
+,
+	{"tag": "afr", "coordinates": [22.0, -32.0]}
+,
+	{"tag": "mlt", "coordinates": [14.4, 35.9]}
+,
+	{"tag": "isl", "coordinates": [-19.0, 64.0]}
+,
+	{"tag": "hbs", "coordinates": [19.0, 45.5]}
+]
+}
