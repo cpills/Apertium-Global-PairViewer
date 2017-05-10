@@ -1,10 +1,6 @@
-// TODO: put json file back into old format to get points to show up.
-// figure out how to create pairs based on tsv. Figure out hovering/labels
-//change arc color / width based on language stage
-// use js from pairviewer to load country name from three letter code
-// Change arc fading? Minimum fade
-// mention features and known bugs on page
-// publish to public repo
+// Apertium Global Pairviewer
+// Colin Pillsbury, Spring 2017
+// cpillsb1@swarthmore.edu
 
 d3.select(window)
     .on("mousemove", mousemove)
@@ -27,6 +23,7 @@ var sky = d3.geo.orthographic()
     .clipAngle(90)
     .scale(width / 3);
 
+// Point radius can be updated here
 var path = d3.geo.path().projection(proj).pointRadius(3);
 
 var swoosh = d3.svg.line()
@@ -38,31 +35,24 @@ var swoosh = d3.svg.line()
 var links = [],
     arcLines = [];
 
-var graticule = d3.geo.graticule();
-
-
-var svg = d3.select("body").append("svg")
-            .attr("width", width)
-            .attr("height", height)
-            .on("mousedown", mousedown);
-
+// Defining tooltip
 var div = d3.select("body").append("div")
     .attr("class", "tooltip")
     .style("opacity", 0);
 
+// Table used to look up full language names
 var codeToLangTable = {};
     d3.json("languages.json", function(error, table) {
         codeToLangTable = jQuery.extend(true, {}, table);
     });
 
-function codeToLanguage(code) {
-    // Presuming that it is in fact a three-letter terminological code
-    if (codeToLangTable[code] === undefined) {
-        return "Unknown";
-    }
-    return codeToLangTable[code];
-}
+// Currently not using long/lat lines, but can be used by uncommenting and pathing
+// var graticule = d3.geo.graticule();
 
+var svg = d3.select("body").append("svg")
+            .attr("width", width)
+            .attr("height", height)
+            .on("mousedown", mousedown);
 
 
 queue()
@@ -71,10 +61,9 @@ queue()
     .await(ready);
 
 function ready(error, world, places) {
-  // console.log(places);
   var land = topojson.object(world, world.objects.land),
-      borders = topojson.mesh(world, world.objects.countries, function(a, b) { return a !== b; }),
-      grid = graticule();
+      borders = topojson.mesh(world, world.objects.countries, function(a, b) { return a !== b; });
+      // grid = graticule(); currently lat lon lines not used, can uncomment to use
 
 
   var ocean_fill = svg.append("defs").append("radialGradient")
@@ -122,49 +111,21 @@ function ready(error, world, places) {
   svg.append("path")
     .datum(borders)
     .attr("class", "mesh")
-    .style("stroke", "white")
+    .style("stroke", "white") // Border color can be changed here
     .style("fill", "999");
 
-
-  //TODO uncomment for ling073 pairs
-  // svg.append("g").attr("class","labels")
-  //       .selectAll("text").data(places.point_data)
-  //     .enter().append("text")
-  //     .attr("class", "label")
-  //     .text(function(d) { return d.properties.tag })
-  //
-  // svg.append("g").attr("class","points")
-  //     .selectAll("text").data(places.point_data)
-  //   .enter().append("path")
-  //     .attr("class", "point")
-  //     .attr("d", path)
-  //     .on("mouseover", function(d) {
-  //           console.log(d);
-  //           div.transition()
-  //               .duration(200)
-  //               .style("opacity", .9);
-  //           div	.html(d.properties.name + "<br/>")
-  //               .style("left", (d3.event.pageX) + "px")
-  //               .style("top", (d3.event.pageY - 28) + "px");
-  //           })
-  //       .on("mouseout", function(d) {
-  //           div.transition()
-  //               .duration(500)
-  //               .style("opacity", 0);
-  //       });
 
   svg.append("g").attr("class","labels")
         .selectAll("text").data(places.point_data)
       .enter().append("text")
       .attr("class", "label")
       .text(function(d) { return d.tag })
-      .on("mouseover", function(d) {
-            // console.log(d);
+      .on("mouseover", function(d) { //Hovering over labels for tooltip
             div.transition()
                 .duration(200)
                 .style("opacity", .9);
-            // div	.html(d.properties.tag + "<br/>")
-            div	.html(d.tag + "<br/>" + codeToLanguage(d.tag))
+
+            div	.html(d.tag + "<br/>" + codeToLanguage(d.tag)) // Looking up full name
                 .style("left", (d3.event.pageX) + "px")
                 .style("top", (d3.event.pageY - 28) + "px");
             })
@@ -179,12 +140,11 @@ function ready(error, world, places) {
     .enter().append("path")
       .attr("class", "point")
       .attr("d", path)
-      .on("mouseover", function(d) {
-            // console.log(d);
+      .on("mouseover", function(d) { //Also added hovering over points for tooltip
             div.transition()
                 .duration(200)
                 .style("opacity", .9);
-            // div	.html(d.properties.tag + "<br/>")
+
             div	.html(d.tag + "<br/>" + codeToLanguage(d.tag))
                 .style("left", (d3.event.pageX) + "px")
                 .style("top", (d3.event.pageY - 28) + "px");
@@ -196,31 +156,12 @@ function ready(error, world, places) {
         });
 
 
-
-
-  // adding borders, need to figure out style
-
-
-
-  // LONG AND LAT LINES
+  // LONG AND LAT LINES, need to uncomment other graticule references to use
   // svg.append("path")
   //       .datum(graticule)
   //       .attr("class", "graticule noclicks")
   //       .attr("d", path);
 
-
-
-  // spawn links between cities as source/target coord pairs
-  // places.features.forEach(function(a) {
-  //   places.features.forEach(function(b) {
-  //     if (a !== b) {
-  //       links.push({
-  //         source: a.geometry.coordinates,
-  //         target: b.geometry.coordinates
-  //       });
-  //     }
-  //   });
-  // });
 
 
   places.pairs.forEach(function(a) {
@@ -230,20 +171,6 @@ function ready(error, world, places) {
       stage: a.repo
     });
   });
-
-  //TODO uncomment for ling073
-  //New code, takes in source target pairs
-  // places.features.forEach(function(a) {
-  //   links.push({
-  //     source: a.pair1.geometry.coordinates,
-  //     target: a.pair2.geometry.coordinates
-  //   });
-  // });
-
-  //TODO figure out how to create pairs now. Need separate pairs JSON file? Maybe create separate points JSON file
-  // places.features.forEach(function(a)) {
-  //   if (a.name in
-  // }
 
 
   // build geoJSON features from links array
@@ -268,43 +195,33 @@ function ready(error, world, places) {
   refresh();
 }
 
-//
-//
-//
-//TESTING
+//Position and hiding labels
 function position_labels() {
   var centerPos = proj.invert([frozenWidth/2, frozenHeight/2]);
-
   var arc = d3.geo.greatArc();
-  // console.log(svg.selectAll(".label"));
+
   svg.selectAll(".label")
     .attr("label-anchor",function(d) {
-      //TODO ling073
-      // var x = proj(d.geometry.coordinates)[0];
       var x = proj(d.geometry.coordinates)[0];
-      return x < width/2-20 ? "end" : // These values will need to be dynamic and not hardcoded
-             x < width/2+20 ? "middle" : // to work well with zooming in and out
+      return x < width/2-20 ? "end" :
+             x < width/2+20 ? "middle" :
              "start"
     })
     .attr("transform", function(d) {
       var loc = proj(d.geometry.coordinates),
-      // var loc = proj(d.geometry.coordinates),
         x = loc[0],
         y = loc[1];
       var offset = x < width/2 ? -5 : 5;
       return "translate(" + (x+offset) + "," + (y-2) + ")"
     })
     .style("display",function(d) {
-      // console.log(d);
-      // var d = arc.distance({source: d.geometry.coordinates, target: centerPos});
       var d = arc.distance({source: d.geometry.coordinates, target: centerPos});
-      // console.log(d);
       return (d > 1.57) ? 'none' : 'inline';
     })
 
 }
 
-
+// Chooses flyer color based on language pair stage
 function chooseColor(d) {
   var color = "orange";
   if (d.stage == "trunk") {
@@ -325,17 +242,14 @@ function chooseColor(d) {
   return color;
 }
 
+// Recreates all of the needed objects and resizes
 function zoomIn() {
-  width += 200;
-  height += 100;
+  width += 200; // These values should probably be scaled rather than hard coded
+  height += 100; // Possible change for future versions
 
-  // svg.attr("width", width);
-  // svg.attr("height", height);
   sky = d3.geo.orthographic()
-      // .translate([width / 2, height / 2])
       .clipAngle(90)
-      // .scale(300);
-      .scale(width / 3);
+      .scale(width / 3); //Works fairly well, can adjust to change height of flyers
 
   proj = d3.geo.orthographic()
       .clipAngle(90)
@@ -344,7 +258,6 @@ function zoomIn() {
   path = d3.geo.path().projection(proj).pointRadius(3);
 
   svg.selectAll("circle").attr("r", width / 4);
-
   refresh();
 }
 
@@ -352,11 +265,8 @@ function zoomOut() {
   width -= 200;
   height -= 100;
 
-
   sky = d3.geo.orthographic()
-      // .translate([width / 2, height / 2])
       .clipAngle(90)
-      // .scale(300);
       .scale(width / 3);
 
   proj = d3.geo.orthographic()
@@ -364,11 +274,11 @@ function zoomOut() {
       .scale(width / 4);
 
   path = d3.geo.path().projection(proj).pointRadius(3);
+
   svg.selectAll("circle").attr("r", width / 4);
   refresh();
 
 }
-
 
 function flying_arc(pts) {
   var source = pts.source,
@@ -381,29 +291,32 @@ function flying_arc(pts) {
   return result;
 }
 
+function codeToLanguage(code) {
+    // Presuming that it is in fact a three-letter terminological code
+    if (codeToLangTable[code] === undefined) {
+        return "Unknown";
+    }
+    return codeToLangTable[code];
+}
 
 
 function refresh() {
   svg.selectAll(".land").attr("d", path);
   svg.selectAll(".point").attr("d", path);
   svg.selectAll(".mesh").attr("d", path);
-
-
-  // svg.selectAll(".graticule").attr("d", path); //This adds long and lat lines
-
   svg.selectAll(".arc").attr("d", path);
+  // svg.selectAll(".graticule").attr("d", path); //This adds long and lat lines
 
   position_labels();
 
   svg.selectAll(".flyer")
     .attr("d", function(d) { return swoosh(flying_arc(d)) })
     .attr("opacity", function(d) {
-      return fade_at_edge(d) // change this to just (d) to not fade edges
+      return fade_at_edge(d)
     })
 }
 
 function fade_at_edge(d) {
-  // console.log(width);
   var centerPos = proj.invert([frozenWidth / 2, frozenHeight / 2]),
       arc = d3.geo.greatArc(),
       start, end;
@@ -413,8 +326,6 @@ function fade_at_edge(d) {
     end = d.target;
   }
   else {
-    // start = d.geometry.coordinates[0];
-    // end = d.geometry.coordinates[1];
     start = d.coordinates1;
     end = d.coordinates2;
   }
@@ -424,7 +335,6 @@ function fade_at_edge(d) {
 
   var fade = d3.scale.linear().domain([-.1,0]).range([0,.1])
   var dist = start_dist < end_dist ? start_dist : end_dist;
-  // console.log(centerPos);
   return fade(dist)
 }
 
