@@ -2,7 +2,16 @@
 
 Welcome to the repo for my 3D Apertium Pairviewer! This project was made as a final for my Computation Linguistics class. The page is a simple way of visualizing the language pairs currently in Apertium (and also the language pairs worked on for the class).
 
-Information about each of the files:
+## To Run:
+Simply clone the repository. To run locally, I use a PythonHTTPServer:
+```
+python -m SimpleHTTPServer 8888 &
+```
+Then, you can direct your browser to <http://localhost:8888/> to view. 
+
+To add or modify point data, change the apertiumPairs.json file.
+
+## Files:
 * apertium-languages.tsv -- This file contains the coordinates of certain languages in Apertium.
 
 * apertiumPairs.json -- Contains all of the pair data and point data used
@@ -24,7 +33,7 @@ Information about each of the files:
 * world-110m.json -- Country data used for generating the globe
 
 
-
+## More:
 To learn more about the project, you can look at the wiki page https://wikis.swarthmore.edu/ling073/User:Cpillsb1/Final_project
 
 To learn more about Apertium, visit the Apertium website https://www.apertium.org/
