@@ -50,6 +50,19 @@ var div = d3.select("body").append("div")
     .attr("class", "tooltip")
     .style("opacity", 0);
 
+var codeToLangTable = {};
+    d3.json("languages.json", function(error, table) {
+        codeToLangTable = jQuery.extend(true, {}, table);
+    });
+
+function codeToLanguage(code) {
+    // Presuming that it is in fact a three-letter terminological code
+    if (codeToLangTable[code] === undefined) {
+        return "Unknown";
+    }
+    return codeToLangTable[code];
+}
+
 
 
 queue()
@@ -58,7 +71,7 @@ queue()
     .await(ready);
 
 function ready(error, world, places) {
-  console.log(places);
+  // console.log(places);
   var land = topojson.object(world, world.objects.land),
       borders = topojson.mesh(world, world.objects.countries, function(a, b) { return a !== b; }),
       grid = graticule();
@@ -146,12 +159,12 @@ function ready(error, world, places) {
       .attr("class", "label")
       .text(function(d) { return d.tag })
       .on("mouseover", function(d) {
-            console.log(d);
+            // console.log(d);
             div.transition()
                 .duration(200)
                 .style("opacity", .9);
             // div	.html(d.properties.tag + "<br/>")
-            div	.html(d.tag + "<br/>")
+            div	.html(d.tag + "<br/>" + codeToLanguage(d.tag))
                 .style("left", (d3.event.pageX) + "px")
                 .style("top", (d3.event.pageY - 28) + "px");
             })
@@ -167,12 +180,12 @@ function ready(error, world, places) {
       .attr("class", "point")
       .attr("d", path)
       .on("mouseover", function(d) {
-            console.log(d);
+            // console.log(d);
             div.transition()
                 .duration(200)
                 .style("opacity", .9);
             // div	.html(d.properties.tag + "<br/>")
-            div	.html(d.tag + "<br/>")
+            div	.html(d.tag + "<br/>" + codeToLanguage(d.tag))
                 .style("left", (d3.event.pageX) + "px")
                 .style("top", (d3.event.pageY - 28) + "px");
             })
@@ -291,22 +304,23 @@ function position_labels() {
 
 }
 
+
 function chooseColor(d) {
   var color = "orange";
   if (d.stage == "trunk") {
     color = "lightgreen";
   }
   else if (d.stage == "staging") {
-    color = "darkgreen";
+    color = "green";
   }
   else if (d.stage == "nursery") {
-    color = "orange";
+    color = "yellow";
   }
   else if (d.stage == "incubator") {
     color = "red";
   }
   else {
-    color = "violet"
+    color = "purple"
   }
   return color;
 }
