@@ -1,7 +1,7 @@
 // TODO: put json file back into old format to get points to show up.
 // figure out how to create pairs based on tsv. Figure out hovering/labels
-//ADD ZOOMING (resizing circle with button)
 //change arc color / width based on language stage
+// use js from pairviewer to load country name from three letter code
 // Change arc fading? Minimum fade
 // mention features and known bugs on page
 // publish to public repo
@@ -13,6 +13,9 @@ d3.select(window)
 
 var width = 960, //These intial values are the only ones that work, not too sure why
     height = 500; // Something might be hardcoded somewhere else
+
+var frozenWidth = 960, // These values need to not change, used when hiding labels
+    frozenHeight = 500;
 
 var proj = d3.geo.orthographic()
     .translate([width / 2, height / 2])
@@ -47,13 +50,11 @@ var div = d3.select("body").append("div")
     .attr("class", "tooltip")
     .style("opacity", 0);
 
-// var parseDate = d3.time.format("%d-%b-%y").parse;
-// var formatTime = d3.time.format("%e %B");
+
 
 queue()
     .defer(d3.json, "world-110m.json")
     .defer(d3.json, "apertiumPairs.json")
-    // .defer(d3.json, "points.json")
     .await(ready);
 
 function ready(error, world, places) {
@@ -70,28 +71,6 @@ function ready(error, world, places) {
       ocean_fill.append("stop").attr("offset", "5%").attr("stop-color", "#fff");
       ocean_fill.append("stop").attr("offset", "100%").attr("stop-color", "#ababab");
 
-  // var globe_highlight = svg.append("defs").append("radialGradient")
-  //       .attr("id", "globe_highlight")
-  //       .attr("cx", "75%")
-  //       .attr("cy", "25%");
-  //     globe_highlight.append("stop")
-  //       .attr("offset", "5%").attr("stop-color", "#ffd")
-  //       .attr("stop-opacity","0.6");
-  //     globe_highlight.append("stop")
-  //       .attr("offset", "100%").attr("stop-color", "#ba9")
-  //       .attr("stop-opacity","0.2");
-  //
-  // var globe_shading = svg.append("defs").append("radialGradient")
-  //       .attr("id", "globe_shading")
-  //       .attr("cx", "55%")
-  //       .attr("cy", "45%");
-  //     globe_shading.append("stop")
-  //       .attr("offset","30%").attr("stop-color", "#fff")
-  //       .attr("stop-opacity","0")
-  //     globe_shading.append("stop")
-  //       .attr("offset","100%").attr("stop-color", "#505962")
-  //       .attr("stop-opacity","0.3")
-
   var drop_shadow = svg.append("defs").append("radialGradient")
         .attr("id", "drop_shadow")
         .attr("cx", "50%")
@@ -103,12 +82,6 @@ function ready(error, world, places) {
         .attr("offset","100%").attr("stop-color", "#000")
         .attr("stop-opacity","0")
 
-  // svg.append("ellipse")
-  //   .attr("cx", 440).attr("cy", 450)
-  //   .attr("rx", proj.scale()*.90)
-  //   .attr("ry", proj.scale()*.25)
-  //   .attr("class", "noclicks")
-  //   .style("fill", "url(#drop_shadow)");
 
   svg.append("circle")
     .attr("cx", width / 2).attr("cy", height / 2)
@@ -172,6 +145,21 @@ function ready(error, world, places) {
       .enter().append("text")
       .attr("class", "label")
       .text(function(d) { return d.tag })
+      .on("mouseover", function(d) {
+            console.log(d);
+            div.transition()
+                .duration(200)
+                .style("opacity", .9);
+            // div	.html(d.properties.tag + "<br/>")
+            div	.html(d.tag + "<br/>")
+                .style("left", (d3.event.pageX) + "px")
+                .style("top", (d3.event.pageY - 28) + "px");
+            })
+        .on("mouseout", function(d) {
+            div.transition()
+                .duration(500)
+                .style("opacity", 0);
+        });
 
   svg.append("g").attr("class","points")
       .selectAll("text").data(places.point_data)
@@ -225,7 +213,8 @@ function ready(error, world, places) {
   places.pairs.forEach(function(a) {
     links.push({
       source: a.coordinates1,
-      target: a.coordinates2
+      target: a.coordinates2,
+      stage: a.repo
     });
   });
 
@@ -246,7 +235,7 @@ function ready(error, world, places) {
 
   // build geoJSON features from links array
   links.forEach(function(e,i,a) {
-    var feature =   { "type": "Feature", "geometry": { "type": "LineString", "coordinates": [e.source,e.target] }}
+    var feature =  { "type": "Feature", "geometry": { "type": "LineString", "coordinates": [e.source,e.target] }}
     arcLines.push(feature)
   })
 
@@ -261,6 +250,7 @@ function ready(error, world, places) {
     .enter().append("path")
     .attr("class","flyer")
     .attr("d", function(d) { return swoosh(flying_arc(d)) })
+    .style("stroke", function(d) { return chooseColor(d) })
 
   refresh();
 }
@@ -270,7 +260,7 @@ function ready(error, world, places) {
 //
 //TESTING
 function position_labels() {
-  var centerPos = proj.invert([width/2,height/2]);
+  var centerPos = proj.invert([frozenWidth/2, frozenHeight/2]);
 
   var arc = d3.geo.greatArc();
   // console.log(svg.selectAll(".label"));
@@ -299,6 +289,26 @@ function position_labels() {
       return (d > 1.57) ? 'none' : 'inline';
     })
 
+}
+
+function chooseColor(d) {
+  var color = "orange";
+  if (d.stage == "trunk") {
+    color = "lightgreen";
+  }
+  else if (d.stage == "staging") {
+    color = "darkgreen";
+  }
+  else if (d.stage == "nursery") {
+    color = "orange";
+  }
+  else if (d.stage == "incubator") {
+    color = "red";
+  }
+  else {
+    color = "violet"
+  }
+  return color;
 }
 
 function zoomIn() {
@@ -340,11 +350,8 @@ function zoomOut() {
       .scale(width / 4);
 
   path = d3.geo.path().projection(proj).pointRadius(3);
-
   svg.selectAll("circle").attr("r", width / 4);
-
   refresh();
-
 
 }
 
@@ -382,7 +389,8 @@ function refresh() {
 }
 
 function fade_at_edge(d) {
-  var centerPos = proj.invert([width/2,height/2]),
+  // console.log(width);
+  var centerPos = proj.invert([frozenWidth / 2, frozenHeight / 2]),
       arc = d3.geo.greatArc(),
       start, end;
   // function is called on 2 different data structures..
@@ -402,7 +410,7 @@ function fade_at_edge(d) {
 
   var fade = d3.scale.linear().domain([-.1,0]).range([0,.1])
   var dist = start_dist < end_dist ? start_dist : end_dist;
-
+  // console.log(centerPos);
   return fade(dist)
 }
 
